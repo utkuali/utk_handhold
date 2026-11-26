@@ -126,6 +126,13 @@ Config.Keys = { hand = 'B', firm = 'H', front = 'J', menu = 'O' }
 Config.Holds = { hand = true, front = true, firm = false }
 ```
 
+### Without the built-in UI
+
+If you use none of the built-in UIs, you can comment out `ui_page` and the `files` block in `fxmanifest.lua`, and no
+page is loaded for this resource. It notices and does without them: no built-in menu (use a target system, or set
+`Config.Target = 'none'`), the key guide from ox_lib's text UI or the game's help box, no marker on held-out hands,
+no countdown rings, and no `/handhold`. Holding hands works the same.
+
 ### `locales/`
 
 To add a language, copy `locales/en.lua` to, for example, `locales/de.lua`, change `Locales['en']` to
