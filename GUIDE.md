@@ -6,7 +6,7 @@ face to face.
 Nothing is attached and nobody is frozen. Both players keep walking on their own, the hands follow them, every player
 around sees the hold, and a hold that is pulled too far lets go and comes back by itself.
 
-Version 1.0.0. Standalone: no framework is required.
+Version 1.0.1. Standalone: no framework is required.
 
 ## Contents
 
