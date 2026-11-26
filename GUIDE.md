@@ -3,9 +3,8 @@
 Players hold each other while they stand, walk and run: hand in hand in rows and rings of any size, and both hands
 face to face.
 
-Nothing is attached and nobody is frozen. Every hold is drawn with arm IK on each client that sees it, so both
-players keep walking on their own, the hands follow them, and a hold that is pulled too far lets go and comes back by
-itself.
+Nothing is attached and nobody is frozen. Both players keep walking on their own, the hands follow them, every player
+around sees the hold, and a hold that is pulled too far lets go and comes back by itself.
 
 Version 1.0.0. Standalone: no framework is required.
 
