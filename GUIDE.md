@@ -19,9 +19,8 @@ Version 1.0.0. Standalone: no framework is required.
 6. [Key guide](#6-key-guide)
 7. [Frameworks](#7-frameworks)
 8. [Using it from your own resources](#8-using-it-from-your-own-resources)
-9. [Debug mode and pose tuning](#9-debug-mode-and-pose-tuning)
-10. [Troubleshooting](#10-troubleshooting)
-11. [Licence and support](#11-licence-and-support)
+9. [Troubleshooting](#9-troubleshooting)
+10. [Licence and support](#10-licence-and-support)
 
 ---
 
@@ -63,7 +62,7 @@ marker, countdown rings and key guide, and every hold is available.
 | `config/poses.lua` | How the hands look on your server | no |
 | `locales/*.lua` | Every word a player reads | no |
 | `bridge/client.lua` | Target systems, key guide, "is this player busy" on the client | no |
-| `bridge/server.lua` | Who may not hold anyone, who is an admin, how the debug command is registered | no |
+| `bridge/server.lua` | Who may not hold anyone | no |
 | `client`, `server`, `shared` | The script itself | yes |
 
 **Updating:** keep your own copies of `config/`, `locales/` and `bridge/`, replace the folder, and carry your changes
@@ -116,7 +115,6 @@ Good to know:
 | `Config.RecoverTime` | `8` | Seconds a broken hold can come back. |
 | `Config.JoinTime` | `14` | Seconds two players have to step together when a hold begins. |
 | `Config.BlockingStates` | see file | Player state bag keys that mean "cannot hold anyone". See [section 7](#7-frameworks). |
-| `Config.Debug` | off | Admin tools. See [section 9](#9-debug-mode-and-pose-tuning). |
 
 Example: no firm grip, hand key on B, Turkish:
 
@@ -135,8 +133,8 @@ To add a language, copy `locales/en.lua` to, for example, `locales/de.lua`, chan
 
 ### `config/poses.lua`
 
-Your own poses, replacing the built-in ones for every player. Fill it from the tuning panel
-([section 9](#9-debug-mode-and-pose-tuning)). Two lines you may want without the panel:
+Your own poses, replacing the built-in ones for every player. The built-in ones fit the game's default male and female
+peds; the file lists the values worth changing. For example:
 
 ```lua
 Config.Poses = {
@@ -430,8 +428,8 @@ No file of this resource is touched. See [section 8](#8-using-it-from-your-own-r
 | ox_core | Death is covered by the state bag `isDead`. Add the keys of your cuff script. |
 | Your own | Way 1, 2 or 3. |
 
-As with the target systems, these were written against each framework's public source and have not been run on a live
-server of each.
+The resource itself uses no framework. It has run with ESX Legacy; the QBCore and Qbox checks and the examples below
+were written against each framework's public source.
 
 The examples go into `Bridge.isBlocked(source)`, above its last `return false`.
 
@@ -606,96 +604,7 @@ AddEventHandler('playerDropped', function() last[source] = nil end)
 if GetResourceState('utk_handhold') == 'started' and exports.utk_handhold:isHoldingHands() then return end
 ```
 
-## 9. Debug mode and pose tuning
-
-Admin-only tools: a panel that tunes every pose, a stand-in ped to try holds on alone, and test commands. **Off by
-default**; while it is off no command is registered and none of it runs.
-
-```lua
-Config.Debug = {
-    enabled = true,
-    command = 'hh',
-    permission = 'ace',    -- 'ace' or 'custom'
-    register = 'native',   -- 'native', 'ox_lib' or 'custom'
-}
-```
-
-### Who is an admin (`permission`)
-
-Every use is checked on the server.
-
-- `'ace'`: FiveM's own permissions. The player needs the ACE `command.hh` (`command.` and the command's name):
-
-  ```cfg
-  add_ace group.admin command.hh allow
-  add_principal identifier.license:xxxxxxxx group.admin
-  ```
-
-- `'custom'`: your own check, the entry `['custom']` of the `admins` table in `bridge/server.lua`. Use one of these:
-
-  ```lua
-  -- ESX
-  ['custom'] = function(source)
-      local xPlayer = exports.es_extended:getSharedObject().GetPlayerFromId(source)
-      return xPlayer ~= nil and xPlayer.getGroup() == 'admin'
-  end,
-  ```
-
-  ```lua
-  -- QBCore
-  ['custom'] = function(source)
-      return exports['qb-core']:GetCoreObject().Functions.HasPermission(source, 'admin')
-  end,
-  ```
-
-  ```lua
-  -- an ACE of your own (Qbox, ox_core, anything)
-  ['custom'] = function(source)
-      return IsPlayerAceAllowed(source, 'myserver.admin')
-  end,
-  ```
-
-### How the command is registered (`register`)
-
-- `'native'`: FiveM's `RegisterCommand`.
-- `'ox_lib'`: `lib.addCommand`, with help in the chat suggestions. ox_lib must be started first.
-- `'custom'`: your own command system, the entry `['custom']` of the `registrars` table in `bridge/server.lua`. With
-  QBCore, for example:
-
-  ```lua
-  ['custom'] = function(name, handler, description, restricted)
-      exports['qb-core']:GetCoreObject().Commands.Add(name, description, {}, false, function(source, args)
-          handler(source, args)
-      end, 'admin')
-  end,
-  ```
-
-### Commands
-
-| Command | What it does |
-|---|---|
-| `/hh tune` | The tuning panel, open and closed. |
-| `/hh npc [L\|R\|stand\|follow\|off]` | A stand-in ped beside you, seen by you only. |
-| `/hh join [L\|R]` | Your hand in the stand-in's. |
-| `/hh pair <id> [<id>]` | A hand hold between two players without the keys. |
-| `/hh unpair [<id>]` | Ends a player's holds. |
-| `/hh stop [all]` | Ends what you started on your own screen; `all` removes the stand-in too. |
-| `/hh debug` | Markers and figures on your screen. |
-| `/hh get`, `/hh set <figure> <value>`, `/hh reset [figure]` | The figures themselves. |
-
-### Tuning the poses
-
-1. `/hh npc` puts a stand-in beside you, `/hh join` takes its hand, `/hh tune` opens the panel. A close-up camera
-   circles the hands, and you can still walk.
-2. For the other poses use the "Show on me" buttons.
-3. Move the sliders until it looks right, standing and walking.
-4. Press **Copy values**, paste the lines between the braces of `config/poses.lua`, and restart the resource.
-5. Press **Reset all**, so that you see what every player sees. Your own changes stay on your machine and are only
-   used while debug mode is on.
-
-Turn debug mode off again when you are done.
-
-## 10. Troubleshooting
+## 9. Troubleshooting
 
 | Problem | What to check |
 |---|---|
@@ -707,13 +616,11 @@ Turn debug mode off again when you are done.
 | A player cannot hold anyone | They are in a vehicle, dead or blocked. `exports.utk_handhold:canHold(source)` says which. `'busy'` means `Config.BlockingStates`, `Bridge.isBlocked` or `setBlocked`. |
 | The hands join and let go at once | The two stand too far apart or turned away. Step closer. |
 | Others do not see a hold | OneSync has to be on, and nothing may block state bags. |
-| `/hh` does nothing or "Access denied" | `Config.Debug.enabled` is false, or the player is not an admin by `Config.Debug.permission`. |
 | The key guide does not show | Try `Config.KeyGuide = 'builtin'`. |
 | A player's walk style does not come back after a hold | It is not one of the game's own styles: fill in `Bridge.restoreWalk` (section 5), or set `Config.DefaultWalk = false`. |
 
-With debug mode on, the server console prints a line when a hold begins and ends, with the reason.
 
-## 11. Licence and support
+## 10. Licence and support
 
 See `LICENSE`. In short: the product is for your own servers under the Cfx.re account it was bought for. You may edit
 the files in `config`, `locales` and `bridge`. You may not resell, share or redistribute any part of it, and you may
