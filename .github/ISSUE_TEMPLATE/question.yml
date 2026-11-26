@@ -1,0 +1,20 @@
+name: Question
+description: Anything else about setting it up or using it.
+labels: ["question"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Please read the resource's README first, above all its Troubleshooting section.
+  - type: input
+    id: version
+    attributes:
+      label: Resource version
+    validations:
+      required: true
+  - type: textarea
+    id: question
+    attributes:
+      label: Your question
+    validations:
+      required: true

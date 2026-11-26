@@ -1,0 +1,77 @@
+name: Bug report
+description: Something does not work as the README says.
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting. Please do not paste license keys, server IP addresses or any part of the resource's files.
+  - type: input
+    id: version
+    attributes:
+      label: Resource version
+      description: From fxmanifest.lua, for example 1.0.0.
+    validations:
+      required: true
+  - type: input
+    id: artifact
+    attributes:
+      label: Server artifact (build number)
+      description: Shown in the server console at start, or in txAdmin.
+    validations:
+      required: true
+  - type: input
+    id: framework
+    attributes:
+      label: Framework and version
+      description: For example QBCore, Qbox, ESX, ox_core, or none.
+    validations:
+      required: true
+  - type: dropdown
+    id: target
+    attributes:
+      label: Config.Target
+      options:
+        - auto
+        - builtin
+        - ox_target
+        - qb-target
+        - qtarget
+        - custom
+        - none
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: What you did, what you expected, and what happened instead.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: How to make it happen again
+      description: The steps, as exact as you can. How many players were involved?
+      placeholder: |
+        1. Two players stand side by side
+        2. Player A presses G
+        3. ...
+    validations:
+      required: true
+  - type: textarea
+    id: errors
+    attributes:
+      label: Errors
+      description: Anything from the server console and the F8 console around the time it happened. Leave empty if there were none.
+      render: text
+  - type: textarea
+    id: media
+    attributes:
+      label: Screenshots or video
+      description: Drag files in here, or link a clip.
+  - type: textarea
+    id: changes
+    attributes:
+      label: Your changes
+      description: Did you change config/config.lua, config/poses.lua or the bridge files? Describe what you changed, without pasting the files.

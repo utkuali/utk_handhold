@@ -1,0 +1,31 @@
+name: Integration request
+description: Support for a framework, target system, text UI or other resource.
+labels: ["integration"]
+body:
+  - type: input
+    id: name
+    attributes:
+      label: Resource
+      description: Its name and where to find it (a link to its page or repository).
+    validations:
+      required: true
+  - type: dropdown
+    id: kind
+    attributes:
+      label: What it is
+      options:
+        - Framework
+        - Target / interaction system
+        - Text UI or key guide
+        - Emote or walk style resource
+        - Police, cuffs, death or other state
+        - Something else
+    validations:
+      required: true
+  - type: textarea
+    id: need
+    attributes:
+      label: What should work together
+      description: For example "the hold options should appear in its menu" or "cuffed players should not be able to hold hands".
+    validations:
+      required: true

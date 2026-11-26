@@ -1,0 +1,23 @@
+name: Feature request
+description: Something you would like the resource to do.
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: idea
+    attributes:
+      label: What you would like
+      description: Describe it as a player or a server owner would see it.
+    validations:
+      required: true
+  - type: textarea
+    id: why
+    attributes:
+      label: Why
+      description: What it would let your players or your server do that they cannot do now.
+    validations:
+      required: true
+  - type: textarea
+    id: examples
+    attributes:
+      label: Examples
+      description: Screenshots, clips or other games or resources that do something similar.
