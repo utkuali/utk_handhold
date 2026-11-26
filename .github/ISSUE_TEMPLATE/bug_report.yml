@@ -32,13 +32,13 @@ body:
     attributes:
       label: Config.Target
       options:
-        - auto
-        - builtin
-        - ox_target
-        - qb-target
-        - qtarget
-        - custom
-        - none
+        - "'auto'"
+        - "'builtin'"
+        - "'ox_target'"
+        - "'qb-target'"
+        - "'qtarget'"
+        - "'custom'"
+        - "'none'"
     validations:
       required: true
   - type: textarea
