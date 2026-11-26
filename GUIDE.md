@@ -7,7 +7,7 @@ Nothing is attached and nobody is frozen. Every hold is drawn with arm IK on eac
 players keep walking on their own, the hands follow them, and a hold that is pulled too far lets go and comes back by
 itself.
 
-Version 1.0.0-rc.10. Standalone: no framework is required.
+Version 1.0.0. Standalone: no framework is required.
 
 ## Contents
 
