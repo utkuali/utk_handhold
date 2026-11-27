@@ -101,7 +101,7 @@ Good to know:
 
 | Setting | Default | Meaning |
 |---|---|---|
-| `Config.Locale` | `'en'` | A file name in `locales/` without `.lua`. English and Turkish are included. |
+| `Config.Locale` | `'en'` | A file name in `locales/` without `.lua`. See [Languages](#locales) for the included ones. |
 | `Config.Accent` | `'#ffc526'` | The colour of the built-in menu, marker, rings and key guide, as `'#rrggbb'`. |
 | `Config.PlayerSettings` | on, `handhold` | The `/handhold` panel for each player's own ring. `enabled = false`: no command, everyone sees the server's look. |
 | `Config.Target` | `'auto'` | Where the menu on another player lives. See [section 5](#5-interaction-target-systems). |
@@ -134,8 +134,30 @@ no countdown rings, and no `/handhold`. Holding hands works the same.
 
 ### `locales/`
 
-To add a language, copy `locales/en.lua` to, for example, `locales/de.lua`, change `Locales['en']` to
-`Locales['de']`, translate the right-hand sides, and set `Config.Locale = 'de'`. Missing lines fall back to English.
+Included, with the value for `Config.Locale`:
+
+| Language | Value | Language | Value |
+|---|---|---|---|
+| English | `en` | Polish | `pl` |
+| Turkish | `tr` | Russian | `ru` |
+| German | `de` | Czech | `cs` |
+| French | `fr` | Swedish | `sv` |
+| Spanish | `es` | Danish | `da` |
+| Portuguese (Brazil) | `pt-br` | Romanian | `ro` |
+| Italian | `it` | Hungarian | `hu` |
+| Dutch | `nl` | Chinese (Simplified) | `zh-cn` |
+| Arabic | `ar` | | |
+
+To change a line, edit it in that file. To add a language, copy `locales/en.lua` to, for example, `locales/fi.lua`,
+change `Locales['en']` to `Locales['fi']`, translate the right-hand sides, and set `Config.Locale = 'fi'`. Missing
+lines fall back to English.
+
+A right-to-left language has `direction = 'rtl'` at the top of its file, as `ar.lua` does: the built-in menu, hand
+marker, key guide and `/handhold` panel are then laid out from right to left. The game's own text (key binding names,
+the game's help box used as a key guide) may not draw Arabic letters; the built-in interface does.
+
+Key binding names are saved by the game when a player first gets the binding, so a player who already has it keeps
+the old language there until they reset it in the key settings.
 
 ### `config/poses.lua`
 
